@@ -33,6 +33,25 @@ const ReferralSystem: React.FC<ReferralSystemProps> = ({ referrals }) => {
       });
   };
 
+  const handleInvite = async () => {
+    const shareData = {
+      title: 'StarClicker',
+      text: 'Join me on StarClicker and earn coins! 🚀 Get a bonus using my link:',
+      url: 'https://t.me/StarClickerBot?start=ref123',
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback to copy if native share isn't supported
+        copyLink();
+      }
+    } catch (err) {
+      console.error('Error sharing:', err);
+    }
+  };
+
   return (
     <div className="p-4 w-full max-w-md mx-auto h-full overflow-y-auto pb-24">
       <div className="text-center mb-8">
@@ -133,7 +152,9 @@ const ReferralSystem: React.FC<ReferralSystemProps> = ({ referrals }) => {
           </div>
           <span className="min-w-[4.5rem] text-center">{copied ? 'Copied!' : 'Copy Link'}</span>
         </button>
-        <button className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center space-x-2 transition-colors">
+        <button 
+          onClick={handleInvite}
+          className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center space-x-2 transition-colors">
           <Share2 className="w-5 h-5" />
           <span>Invite</span>
         </button>
